@@ -2,6 +2,16 @@
 
 import { PrivyProvider } from "@privy-io/react-auth";
 import { PRIVY_APP_ID } from "@common/config";
+import {
+  base,
+  baseGoerli,
+  mainnet,
+  goerli,
+  polygon,
+  polygonMumbai,
+} from "viem/chains";
+import { tcgverse } from "@/lib/chains";
+
 
 const handleLogin = (user: any) => {
   console.log(`User ${user.id} logged in!`);
@@ -31,6 +41,10 @@ export default function WalletProvider({
           termsAndConditionsUrl: "https://your-terms-and-conditions-url",
           privacyPolicyUrl: "https://your-privacy-policy-url",
         },
+        defaultChain: tcgverse,
+        supportedChains: [
+          tcgverse,
+        ],
       }}
     >
       {children}
