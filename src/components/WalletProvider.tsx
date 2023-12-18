@@ -13,19 +13,27 @@ export default function WalletProvider({
   children: React.ReactNode;
 }) {
   return (
-        <PrivyProvider
-          appId={PRIVY_APP_ID}
-          onSuccess={handleLogin}
-          config={{
-            loginMethods: ["email", "wallet"],
-            appearance: {
-              theme: "light",
-              accentColor: "#676FFF",
-              logo: "https://your-logo-url",
-            },
-          }}
-        >
-          {children}
-        </PrivyProvider>
+    <PrivyProvider
+      appId={PRIVY_APP_ID}
+      onSuccess={handleLogin}
+      config={{
+        // Configure your app's login methods
+        loginMethods: ["wallet", "email", "google", "twitter"],
+        // Configure your app's branding and UIs
+        appearance: {
+          theme: "#02343F",
+          accentColor: "#F0EDCC",
+          logo: "https://res.cloudinary.com/dplp5wtzk/image/upload/v1702903792/cardene.png",
+          showWalletLoginFirst: true,
+        },
+        // Configure your app's legal policies
+        legal: {
+          termsAndConditionsUrl: "https://your-terms-and-conditions-url",
+          privacyPolicyUrl: "https://your-privacy-policy-url",
+        },
+      }}
+    >
+      {children}
+    </PrivyProvider>
   );
 }
