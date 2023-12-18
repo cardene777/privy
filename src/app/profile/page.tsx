@@ -3,39 +3,89 @@ import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
 
 export default function Profile() {
-  const { logout, ready, authenticated, user, linkWallet, linkEmail, linkGithub, linkGoogle, linkDiscord, linkApple, linkPhone } = usePrivy();
+  const {
+    logout,
+    ready,
+    authenticated,
+    user,
+    linkWallet,
+    linkEmail,
+    linkGithub,
+    linkGoogle,
+    linkDiscord,
+    linkApple,
+    linkPhone,
+    unlinkWallet,
+    unlinkEmail,
+    unlinkGithub,
+    unlinkGoogle,
+    unlinkDiscord,
+    unlinkApple,
+    unlinkPhone,
+  } = usePrivy();
     const router = useRouter();
 
     const btnObject = [
         {
             name: 'wallet',
-            func: linkWallet,
+            func: unlinkWallet,
         },
         {
             name: 'email',
-            func: linkEmail,
+            func: unlinkEmail,
         },
         {
             name: 'github',
-            func: linkGithub,
+            func: unlinkGithub,
         },
         {
             name: 'google',
-            func: linkGoogle,
+            func: unlinkGoogle,
         },
         {
             name: 'discord',
-            func: linkDiscord,
+            func: unlinkDiscord,
         },
         {
             name: 'apple',
-            func: linkApple,
+            func: unlinkApple,
         },
         {
             name: 'phone',
-            func: linkPhone,
+            func: unlinkPhone,
         },
     ]
+
+    const unlinkBtnObject = [
+      {
+        name: "unlinkWallet",
+        func: linkWallet,
+      },
+      {
+        name: "unlinkEmail",
+        func: linkEmail,
+      },
+      {
+        name: "unlinkGithub",
+        func: linkGithub,
+      },
+      {
+        name: "unlinkGoogle",
+        func: linkGoogle,
+      },
+      {
+        name: "unlinkDiscord",
+        func: linkDiscord,
+      },
+      {
+        name: "unlinkApple",
+        func: linkApple,
+      },
+      {
+        name: "unlinkPhone",
+        func: linkPhone,
+      },
+    ];
 
   if (!(ready && authenticated) || !user) {
     return null;
@@ -72,6 +122,19 @@ export default function Profile() {
         <div>
           <div className="flex justify-center text-center space-x-3">
             {btnObject.map((item, index) => (
+              <button
+                key={index}
+                className="text-center font-semibold text-lg mt-12 border-2 rounded-lg py-1 px-3"
+                onClick={item.func}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="flex justify-center text-center space-x-3">
+            {unlinkBtnObject.map((item, index) => (
               <button
                 key={index}
                 className="text-center font-semibold text-lg mt-12 border-2 rounded-lg py-1 px-3"
