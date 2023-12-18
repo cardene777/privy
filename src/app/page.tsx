@@ -1,7 +1,17 @@
+"use client"
+
 import Image from 'next/image'
 import { LoginButton } from '@components/Login';
+import { usePrivy } from "@privy-io/react-auth";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const { ready, authenticated } = usePrivy();
+  const router = useRouter();
+
+    if (ready && authenticated) {
+        router.push("/profile");
+    }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
