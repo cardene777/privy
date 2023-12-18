@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 
@@ -97,6 +98,15 @@ export default function Profile() {
     logout();
     router.push("/");
   };
+    const wallet = wallets.find(
+      (wallet) =>
+        wallet.address === "0x8e82DF2f65D558E895c6BA138489d71246f9f108"
+    );
+
+    useEffect(() => {
+        const chainId = wallet?.chainId;
+        console.log(`chainId: ${chainId}`);
+  }, [wallet?.chainId])
 
   return (
     <div className="container mx-auto w-full mt-20">
