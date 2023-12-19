@@ -139,7 +139,7 @@ export default function Profile() {
               <button
                 key={index}
                 className="text-center font-semibold text-lg mt-12 border-2 rounded-lg py-1 px-3"
-                onClick={item.func}
+                onClick={() => item.func}
               >
                 {item.name}
               </button>

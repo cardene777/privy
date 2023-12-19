@@ -3,7 +3,7 @@
 import { PrivyProvider } from "@privy-io/react-auth";
 import { PRIVY_APP_ID } from "@common/config";
 import { tcgverse } from "@/lib/chains";
-
+import { sepolia } from "viem/chains";
 
 const handleLogin = (user: any) => {
   console.log(`User ${user.id} logged in!`);
@@ -39,7 +39,7 @@ export default function WalletProvider({
           privacyPolicyUrl: "https://your-privacy-policy-url",
         },
         defaultChain: tcgverse,
-        supportedChains: [tcgverse],
+        supportedChains: [tcgverse, sepolia],
       }}
     >
       {children}
