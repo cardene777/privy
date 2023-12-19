@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 
@@ -31,6 +31,7 @@ export default function Profile() {
   const [embedWallet, setEmbedWallet] = useState<any>();
   const [embedWalletAddress, setEmbedWalletAddress] = useState<string>('');
   const [chainId, setChainId] = useState<number>();
+  const [provider, setProvider] = useState<any>();
 
   const btnObject = [
     {
@@ -99,6 +100,11 @@ export default function Profile() {
     router.push("/");
   };
 
+  const checkProvider = useCallback(async () => {
+    const provider = await embedWallet.getEthereumProvider();
+    if (provider) setProvider(provider);
+  }, [embedWallet]);
+
   useEffect(() => {
     setWallet(wallets.find((wallet) => wallet.walletClientType === "metamask"));
     if (wallet?.chainId) setChainId(wallet?.chainId);
@@ -108,6 +114,11 @@ export default function Profile() {
     setEmbedWallet(wallets.find((wallet) => wallet.walletClientType === "privy"));
     if (embedWallet?.address) setEmbedWalletAddress(embedWallet.address);
   }, [embedWallet, wallets]);
+
+  useEffect(() => {
+    checkProvider();
+  }, [checkProvider, embedWallet]);
+
 
 
   return (
