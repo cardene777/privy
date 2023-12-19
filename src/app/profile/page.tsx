@@ -94,19 +94,18 @@ export default function Profile() {
     return null;
   }
 
-  const logoutHandler = async() => {
+  const logoutHandler = async () => {
     await logout();
-    router.push("/");
+    router.push("/wallet");
   };
-    const wallet = wallets.find(
-      (wallet) =>
-        wallet.address === "0x8e82DF2f65D558E895c6BA138489d71246f9f108"
-    );
+  const wallet = wallets.find(
+    (wallet) => wallet.address === "0x8e82DF2f65D558E895c6BA138489d71246f9f108"
+  );
 
-    useEffect(() => {
-        const chainId = wallet?.chainId;
-        console.log(`chainId: ${chainId}`);
-  }, [wallet?.chainId])
+  useEffect(() => {
+    const chainId = wallet?.chainId;
+    console.log(`chainId: ${chainId}`);
+  }, [wallet?.chainId]);
 
   return (
     <div className="container mx-auto w-full mt-20">

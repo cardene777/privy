@@ -21,8 +21,8 @@ export default function WalletProvider({
       config={{
         embeddedWallets: {
           createOnLogin: "users-without-wallets",
-          requireUserPasswordOnCreate: true,
-          noPromptOnSignature: true,
+        //   requireUserPasswordOnCreate: true,
+        //   noPromptOnSignature: true,
         },
         // Configure your app's login methods
         // loginMethods: ["wallet", "email", "google", "twitter"],
