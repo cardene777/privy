@@ -8,6 +8,7 @@ export default function Profile() {
     logout,
     ready,
     authenticated,
+    setWalletPassword,
     user,
     linkWallet,
     linkEmail,
@@ -32,6 +33,7 @@ export default function Profile() {
   const [embedWalletAddress, setEmbedWalletAddress] = useState<string>('');
   const [chainId, setChainId] = useState<number>();
   const [provider, setProvider] = useState<any>();
+  const [recoveryPassword, setRecoveryPassword] = useState<any>();
 
   const btnObject = [
     {
@@ -105,6 +107,12 @@ export default function Profile() {
     if (provider) setProvider(provider);
   }, [embedWallet]);
 
+  const checkPassword = useCallback(async () => {
+    const alreadyHasPassword =
+      embedWallet.recoveryMethod === "user-passcode";
+    if (alreadyHasPassword) setRecoveryPassword(alreadyHasPassword);
+  }, [embedWallet]);
+
   useEffect(() => {
     setWallet(wallets.find((wallet) => wallet.walletClientType === "metamask"));
     if (wallet?.chainId) setChainId(wallet?.chainId);
@@ -116,8 +124,11 @@ export default function Profile() {
   }, [embedWallet, wallets]);
 
   useEffect(() => {
-    checkProvider();
-  }, [checkProvider, embedWallet]);
+    if (embedWallet) {
+      checkProvider();
+      checkPassword();
+    }
+  }, [checkPassword, checkProvider, embedWallet]);
 
 
 
@@ -181,6 +192,19 @@ export default function Profile() {
         </div>
         <div className="mt-12 flex-col justify-center text-center space-x-3">
           <p className="mt-2">EmbedWallet Address: {embedWalletAddress}</p>
+        </div>
+        <div className="mt-2 flex-col justify-center text-center space-x-3">
+          <div className="flex justify-center text-center space-x-3">
+            <button
+              className="text-center font-semibold text-lg mt-12 border-2 rounded-lg py-1 px-3"
+              disabled={!embedWallet}
+              onClick={setWalletPassword}
+              // tnb0qwret0hb2q-45bn-4b4q5r
+            >
+              Set Recovery Password
+            </button>
+          </div>
+          <p className="mt-2">Recovery Password: {recoveryPassword}</p>
         </div>
       </div>
     </div>
