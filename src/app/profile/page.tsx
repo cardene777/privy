@@ -94,8 +94,8 @@ export default function Profile() {
     return null;
   }
 
-  const logoutHandler = () => {
-    logout();
+  const logoutHandler = async() => {
+    await logout();
     router.push("/");
   };
     const wallet = wallets.find(

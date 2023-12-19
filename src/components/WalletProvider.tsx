@@ -19,14 +19,19 @@ export default function WalletProvider({
       appId={PRIVY_APP_ID}
       onSuccess={handleLogin}
       config={{
+        embeddedWallets: {
+          createOnLogin: "users-without-wallets",
+          requireUserPasswordOnCreate: true,
+          noPromptOnSignature: true,
+        },
         // Configure your app's login methods
-        loginMethods: ["wallet", "email", "google", "twitter"],
+        // loginMethods: ["wallet", "email", "google", "twitter"],
         // Configure your app's branding and UIs
         appearance: {
           theme: "#02343F",
           accentColor: "#F0EDCC",
           logo: "https://res.cloudinary.com/dplp5wtzk/image/upload/v1702903792/cardene.png",
-          showWalletLoginFirst: true,
+          //   showWalletLoginFirst: true,
         },
         // Configure your app's legal policies
         legal: {
@@ -34,9 +39,7 @@ export default function WalletProvider({
           privacyPolicyUrl: "https://your-privacy-policy-url",
         },
         defaultChain: tcgverse,
-        supportedChains: [
-          tcgverse,
-        ],
+        supportedChains: [tcgverse],
       }}
     >
       {children}
