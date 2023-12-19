@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 
@@ -27,6 +27,10 @@ export default function Profile() {
   } = usePrivy();
   const { wallets } = useWallets();
   const router = useRouter();
+  const [wallet, setWallet] = useState<any>()
+  const [embedWallet, setEmbedWallet] = useState<any>();
+  const [embedWalletAddress, setEmbedWalletAddress] = useState<string>('');
+  const [chainId, setChainId] = useState<number>();
 
   const btnObject = [
     {
@@ -90,22 +94,21 @@ export default function Profile() {
     },
   ];
 
-  if (!(ready && authenticated) || !user) {
-    return null;
-  }
-
   const logoutHandler = async () => {
     await logout();
-    router.push("/wallet");
+    router.push("/");
   };
-  const wallet = wallets.find(
-    (wallet) => wallet.address === "0x8e82DF2f65D558E895c6BA138489d71246f9f108"
-  );
 
   useEffect(() => {
-    const chainId = wallet?.chainId;
-    console.log(`chainId: ${chainId}`);
-  }, [wallet?.chainId]);
+    setWallet(wallets.find((wallet) => wallet.walletClientType === "metamask"));
+    if (wallet?.chainId) setChainId(wallet?.chainId);
+  }, [wallet?.chainId, wallets]);
+
+  useEffect(() => {
+    setEmbedWallet(wallets.find((wallet) => wallet.walletClientType === "privy"));
+    if (embedWallet?.address) setEmbedWalletAddress(embedWallet.address);
+  }, [embedWallet, wallets]);
+
 
   return (
     <div className="container mx-auto w-full mt-20">
@@ -121,13 +124,13 @@ export default function Profile() {
         </div>
         <div className="mt-12 w-full flex justify-center text-center">
           <div className="mt-12 w-1/2 text-start">
-            <li>Email: {user.email ? user.email.address : "None"}</li>
-            <li>Wallet: {user.wallet ? user.wallet.address : "None"}</li>
-            <li>Google: {user.google ? user.google.email : "None"}</li>
-            <li>Discord: {user.discord ? user.discord.username : "None"}</li>
-            <li>Twitter: {user.twitter ? user.twitter.username : "None"}</li>
-            <li>Github: {user.github ? user.github.username : "None"}</li>
-            <li>Phone: {user.phone ? user.phone.number : "None"}</li>
+            <li>Email: {user?.email ? user?.email.address : "None"}</li>
+            <li>Wallet: {user?.wallet ? user?.wallet.address : "None"}</li>
+            <li>Google: {user?.google ? user?.google.email : "None"}</li>
+            <li>Discord: {user?.discord ? user?.discord.username : "None"}</li>
+            <li>Twitter: {user?.twitter ? user?.twitter.username : "None"}</li>
+            <li>Github: {user?.github ? user?.github.username : "None"}</li>
+            <li>Phone: {user?.phone ? user?.phone.number : "None"}</li>
           </div>
         </div>
         <div>
@@ -164,6 +167,9 @@ export default function Profile() {
             Connect Wallet
           </button>
           <p className="mt-2">Total connected wallets: {wallets.length}</p>
+        </div>
+        <div className="mt-12 flex-col justify-center text-center space-x-3">
+          <p className="mt-2">EmbedWallet Address: {embedWalletAddress}</p>
         </div>
       </div>
     </div>
