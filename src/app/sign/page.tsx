@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
 
 export default function Wallet() {

@@ -34,6 +34,7 @@ export default function Profile() {
   const [chainId, setChainId] = useState<number>();
   const [provider, setProvider] = useState<any>();
   const [recoveryPassword, setRecoveryPassword] = useState<any>();
+  const [chain, setChain] = useState<any>();
 
   const btnObject = [
     {
@@ -102,6 +103,10 @@ export default function Profile() {
     router.push("/");
   };
 
+  const changeChain = async () => {
+    await embedWallet.switchChain(11155111);
+  }
+
   const checkProvider = useCallback(async () => {
     const provider = await embedWallet.getEthereumProvider();
     if (provider) setProvider(provider);
@@ -111,6 +116,11 @@ export default function Profile() {
     const alreadyHasPassword =
       embedWallet.recoveryMethod === "user-passcode";
     if (alreadyHasPassword) setRecoveryPassword(alreadyHasPassword);
+  }, [embedWallet]);
+
+  const checkChainId = useCallback(async () => {
+    const chainId = embedWallet.chainId;
+    if (chainId) setChain(chainId);
   }, [embedWallet]);
 
   useEffect(() => {
@@ -127,8 +137,9 @@ export default function Profile() {
     if (embedWallet) {
       checkProvider();
       checkPassword();
+      checkChainId();
     }
-  }, [checkPassword, checkProvider, embedWallet]);
+  }, [checkChainId, checkPassword, checkProvider, embedWallet]);
 
 
 
@@ -205,6 +216,17 @@ export default function Profile() {
             </button>
           </div>
           <p className="mt-2">Recovery Password: {recoveryPassword}</p>
+        </div>
+        <div className="mt-2 flex-col justify-center text-center space-x-3">
+          <div className="flex justify-center text-center space-x-3">
+            <button
+              className="text-center font-semibold text-lg mt-12 border-2 rounded-lg py-1 px-3"
+              onClick={changeChain}
+            >
+              Change Chain Id
+            </button>
+          </div>
+          <p className="mt-2">ChainId: {chain}</p>
         </div>
       </div>
     </div>
